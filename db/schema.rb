@@ -14,18 +14,27 @@
 ActiveRecord::Schema.define(version: 20131102084323) do
 
   create_table "clients", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "site_targets", force: true do |t|
-    t.integer "site_id"
-    t.integer "target_id"
+    t.integer  "site_id"
+    t.integer  "target_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sites", force: true do |t|
-    t.integer "client_id"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "targets", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
