@@ -14,4 +14,6 @@ gem 'simple_form'
 group :test, :development do
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'fabrication'
+  gem 'ffaker'
 end
