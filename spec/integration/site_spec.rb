@@ -11,7 +11,7 @@ describe Site do
     it "allows creation of sites" do
       click_link "Add New Site"
       fill_in "Name", with: Faker::Company.name
-      fill_in "URL",  with: Faker::Internet.http_url
+      fill_in "Url",  with: Faker::Internet.http_url
       click_button "Create Site"
       page.should have_content("created")
     end
