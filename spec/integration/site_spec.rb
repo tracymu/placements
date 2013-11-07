@@ -6,10 +6,10 @@ describe Site do
     before do
       @client = Fabricate(:client)
       visit client_path(@client)
+      click_link "Add New Site"
     end
 
     it "allows creation of sites" do
-      click_link "Add New Site"
       fill_in "Name", with: Faker::Company.name
       fill_in "Url",  with: Faker::Internet.http_url
       click_button "Create Site"
@@ -18,6 +18,8 @@ describe Site do
 
     it "fails without valid parameters" do
       click_button "Create Site"
+      puts page.body
+      puts page.current_path
       page.should have_content("can't be blank")
     end
   end
