@@ -1,6 +1,6 @@
 <%= simple_form_for(@target) do |f| %>
   <%= f.input :name %>
   <%= f.input :url %>  
-  
+  <%= f.collection_check_boxes :site_ids, Site.all, :id, :name %>
   <%= f.button :submit %>
 <% end %>

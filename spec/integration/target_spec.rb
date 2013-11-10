@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+
 describe Target do
   describe "create" do
     describe "direct url" do
@@ -16,8 +17,12 @@ describe Target do
 
       it "allows assignment of sites" do
         puts page.body
-        @client = Fabricate(:client)
+        puts "------------------------"
+        puts page.current_path
+        puts "__________________________"
+        # @client = Fabricate(:client)
         @site = Fabricate(:site)
+        # @client.site = @site
         # I've made fabricators/site_fabricator.rb
         # Error is saying "Validation failed: Client can't be blank"
         # After this, then I need to make an association between site and target
