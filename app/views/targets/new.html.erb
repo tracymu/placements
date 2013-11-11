@@ -1,6 +1,14 @@
 <%= simple_form_for(@target) do |f| %>
   <%= f.input :name %>
   <%= f.input :url %>  
-  
+  <div class="field">
+	  <%= hidden_field_tag "target[site_ids][]", nil %>
+<!--  I have made these checkboxes below, and when I look at them in the browser they are there, but they dont' work in the test "it "allows assignment of sites" do" -->
+
+	  <%  Site.all.each do |site| %>
+	    <%= check_box_tag "target[site_ids][]", site.id, @target.site_ids.include?(site.id), id: dom_id(site) %>
+	    <%= label_tag dom_id(site), site.name %>
+	  <% end %>
+  </div> 
   <%= f.button :submit %>
 <% end %>

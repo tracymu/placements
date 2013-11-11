@@ -16,13 +16,7 @@ describe Target do
 
       it "allows assignment of sites" do
         puts page.body
-        @client = Fabricate(:client)
         @site = Fabricate(:site)
-        # I've made fabricators/site_fabricator.rb
-        # Error is saying "Validation failed: Client can't be blank"
-        # After this, then I need to make an association between site and target
-        # then I need to make a list of checkboxes for the sites, so one can get check-boxed.
-        # THEN
         check @site.name
         create_target
         page.should have_content(@site.name)
