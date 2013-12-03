@@ -26,7 +26,7 @@ class TargetsController < ApplicationController
 	protected
 
 	def target_params
-		params.require(:target).permit(:name, :url)
+		params.require(:target).permit(:name, :url, site_ids: [])
 	end
 
 end

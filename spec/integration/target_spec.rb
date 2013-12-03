@@ -5,6 +5,7 @@ describe Target do
     describe "direct url" do
 
       before do
+        @site = Fabricate(:site)
         visit new_target_path
       end
 
@@ -15,8 +16,6 @@ describe Target do
       end
 
       it "allows assignment of sites" do
-        puts page.body
-        @site = Fabricate(:site)
         check @site.name
         create_target
         page.should have_content(@site.name)
