@@ -16,4 +16,7 @@ group :test, :development do
   gem 'capybara'
   gem 'fabrication'
   gem 'ffaker'
+  gem "launchy", "~> 2.4.0"
+  gem 'annotate'
 end
+

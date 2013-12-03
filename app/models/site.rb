@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: sites
+#
+#  id         :integer          not null, primary key
+#  client_id  :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  name       :string(255)
+#  url        :string(255)
+#
+
 class Site < ActiveRecord::Base
 
   belongs_to :client
