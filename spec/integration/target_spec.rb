@@ -29,14 +29,15 @@ describe Target do
 
     describe "from site" do
       before do
-        @site = Fabricate(:site)
-        visit site_path(@site)
+        @client = Fabricate(:client)
+        @site   = Fabricate(:site, client: @client)
+        visit client_site_path(@client, @site)
         click_link "Add Target"
       end
 
       it "allows creation of target with site added" do
         create_target
-        page.should have_content("created")
+        page.should have_content("Created")
         page.should have_content(@site.name)
       end
     end
