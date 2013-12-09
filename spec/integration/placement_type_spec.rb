@@ -16,7 +16,7 @@ describe Placement_Type do
     end
 
     it "allows creation of new placement types offered" do
-      # fill_in "Name", with: Faker::Company.name
+      fill_in "Name", with: Faker::Company.name
       click_button "Add Placement Type"
       page.should have_content(@placement_type.name)
     end
