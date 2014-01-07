@@ -1,0 +1,7 @@
+<div class="flashes">
+  <ul>
+    <% flash.each do |type, message| %>
+      <li class="alert alert-<%= type %>"><%= message %></li>
+    <% end %>
+  </ul>
+</div>
