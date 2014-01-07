@@ -28,7 +28,7 @@ describe Placement_Type do
     end
 
     it "fails without valid parameters" do
-      click_button "Create Site"
+      click_button "Add Placement Type"
       page.should have_content("can't be blank")
     end
   end
