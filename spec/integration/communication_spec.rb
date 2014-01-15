@@ -18,26 +18,39 @@ describe "Target Communications" do
 	    visit client_site_path(@site.client, @site)
 	  end
 
-	  it "lists only new site.targets that haven't been contacted" do
-	  	within(".targets.new") do
+	  it "lists site.targets that haven't been contacted in the new targets section" do
+	  	within(".targets.uncontacted") do
 	    	page.should have_content(@new_target.name)
 	    	page.should_not have_content(@contacted_target.name)
 	  	end
 	  end
 
-	  it "allows to mark target as contacted and removes from page" do
-	    click_button "Contacted"
-#  I think here I have to separate out into 2 tests
-			page.reload
-			# is there such a thing?
-	    page.should_not have_content(@target.name)
-	  end
+		describe "updating targets as contacted" do
 
-	  it "records the date the site was contacted" do
-	  	click_button "Contacted"
-	  	@site_target.contact eql Date.current 
+			before do
+				@current = DateTime.current
+				Timecop.freeze(@current)
+				check @new_target.name
+	    	click_button "Update Targets"
+			end
+
+			after do
+				Timecop.return
+			end
+
+	  	it "allows to mark target as contacted and moves to contacted section" do
+	  		within(".targets.uncontacted") do
+					page.should_not have_content(@new_target.name)
+				end
+	  	end
+
+	  	it "moves to contacted section and displays the date the site was contacted" do
+	  		within(".targets.contacted") do
+					page.should have_content(@new_target.name)
+					page.should have_content(DateTime.current.to_s(:long))
+				end
+			end
 		end
-
   end
 
   describe "Page of contacted targets" do

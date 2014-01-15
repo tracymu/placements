@@ -8,10 +8,6 @@ class Site < ActiveRecord::Base
   validates :name, presence: true 
   validates :url, presence: true 
 
-  def new_targets
-    targets.where('site_targets.contacted IS NULL')
-  end
-
   def to_s
     name
   end

@@ -1,10 +1,29 @@
 <h1>This is the sites show page</h1>
 <%= link_to "Add Target", new_target_path(site_ids: @site.id) %>
 
-<div class="targets new">
+<div class="targets uncontacted">
+	<%= form_tag(client_site_path(@site.client, @site), method: :put) do %>
+		<ul>
+		<%     binding.pry if @uncontacted_site_targets.nil? %>
+		<% @uncontacted_site_targets.each do |site_target| %>
+			<li>
+				<%= check_box_tag("targets[#{site_target.target_id}]") %>
+				<%= label_tag("targets[#{site_target.target_id}]", link_to(site_target.target_name, site_target.target)) %>
+			</li>
+		<% end %>
+		</ul>
+		<%= submit_tag("Update Targets") %>
+	<% end %>
+</div>
+
+<div class="targets contacted">
 	<ul>
-	<% @site.new_targets.each do |target| %>
-		<li><%= link_to(target.name, target) %></li>
+	<% @contacted_site_targets.each do |site_target| %>
+		<li>
+			<%= link_to(site_target.target_name, site_target.target) %>
+			- <small>contacted on</small> <%= site_target.contacted.to_s(:long) %>
+		</li>
 	<% end %>
 	</ul>
 </div>
+
