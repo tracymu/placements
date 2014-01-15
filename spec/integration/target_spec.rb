@@ -6,6 +6,7 @@ describe Target do
     describe "direct url" do
 
       before do
+        @site = Fabricate(:site)
         visit new_target_path
       end
 
@@ -16,18 +17,6 @@ describe Target do
       end
 
       it "allows assignment of sites" do
-        puts page.body
-        puts "------------------------"
-        puts page.current_path
-        puts "__________________________"
-        # @client = Fabricate(:client)
-        @site = Fabricate(:site)
-        # @client.site = @site
-        # I've made fabricators/site_fabricator.rb
-        # Error is saying "Validation failed: Client can't be blank"
-        # After this, then I need to make an association between site and target
-        # then I need to make a list of checkboxes for the sites, so one can get check-boxed.
-        # THEN
         check @site.name
         create_target
         page.should have_content(@site.name)
@@ -41,14 +30,15 @@ describe Target do
 
     describe "from site" do
       before do
-        @site = Fabricate(:site)
-        visit site_path(@site)
+        @client = Fabricate(:client)
+        @site   = Fabricate(:site, client: @client)
+        visit client_site_path(@client, @site)
         click_link "Add Target"
       end
 
       it "allows creation of target with site added" do
         create_target
-        page.should have_content("created")
+        page.should have_content("Created")
         page.should have_content(@site.name)
       end
     end
