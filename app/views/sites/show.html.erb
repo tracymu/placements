@@ -1,2 +1,10 @@
 <h1>This is the sites show page</h1>
 <%= link_to "Add Target", new_target_path(site_ids: @site.id) %>
+
+<div class="targets new">
+	<ul>
+	<% @site.new_targets.each do |target| %>
+		<li><%= link_to(target.name, target) %></li>
+	<% end %>
+	</ul>
+</div>
