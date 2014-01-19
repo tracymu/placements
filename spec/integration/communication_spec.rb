@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Target Communications" do 
+describe "Site Show Pages" do 
 # Not sure if this is the class I should be testing. I chose it because this functionality is looking at the
 # communication between sites and targets
 
@@ -12,7 +12,7 @@ describe "Target Communications" do
 		Fabricate(:contacted_site_target, site: @site, target: @contacted_target)
 	end
 
-	describe "site show page" do
+	describe "Div of uncontacted targets" do
 
 	  before do
 	    visit client_site_path(@site.client, @site)
@@ -53,40 +53,44 @@ describe "Target Communications" do
 		end
   end
 
-  describe "Page of contacted targets" do
+  describe "Div of contacted targets" do
 
   	before do
-	    visit contacted_targets_path
-	    # is it ok to make a route like that?
-	  end
+	    visit client_site_path(@site.client, @site)		
+	    @current = DateTime.current
+			Timecop.freeze(@current)
+			check @new_target.name
+	    click_button "Update Targets"
+		end
 
-	  it "lists site.targets that have been contacted" do	    
-	    page.should have_content(@site.targets.name.where)
-	    	#  list of conditions
-	    contacted.exists && do_not_contact == nil && recontacted == nil && details_input == nil
-	  end
+		after do
+				Timecop.return
+		end
 
-# I think there should be another describe block here, so each of them can be 2 checks 
-#  1. that you can click on the dropdown
-#  2. that depending on what you choose, you can write a test for page reload, or date entered.
+	  it "lists site.targets that have been contacted in the targets contacted section" do
+	  	within(".targets.contacted") do
+	    	page.should have_content(@contacted_target.name)
+	    	# page.should_not have_content(@new_target.name)
+	  	end
+		end 
 
-#  Look for a 'choose from dropdown' capybara command?
-	  it "allows to choose recontact as a dropdown" do
-	    click_button "Recontacted"
-	  	page.reload
-	    page.should_not have_content(@target.name)
-	  end
+		  it "allows to choose recontact as a dropdown once, and never again" do
+		  	select("Recontacted", :from => "recontacted")
+		  	click_button "Update"
+		    page.should_not have_content("recontacted")
+		 
+		  end
 
-		it "allows to choose 'Do Not Contact' as a dropdown" do
-	    click_button "Do Not Contact"
-	    page.reload
-	    page.should_not have_content(@target.name)
-	  end
+			it "allows to choose 'Do Not Contact' as a dropdown" do
+		    click_button "Do Not Contact"
+		    page.reload
+		    page.should_not have_content(@target.name)
+		  end
 
-	  it "allows to choose Input Details as a dropdown and redirects to target page" do
-	    click_button "Input Details"
-	    page.should have_content("Enter Offer Details")
-	    # What page shoudl this be? What model???
-	  end
+		  it "allows to choose Input Details as a dropdown and redirects to target page" do
+		    click_button "Input Details"
+		    page.should have_content("Enter Offer Details")
+		    # What page shoudl this be? What model???
+		  end
   end
 end

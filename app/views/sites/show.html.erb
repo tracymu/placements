@@ -4,7 +4,6 @@
 <div class="targets uncontacted">
 	<%= form_tag(client_site_path(@site.client, @site), method: :put) do %>
 		<ul>
-		<%     binding.pry if @uncontacted_site_targets.nil? %>
 		<% @uncontacted_site_targets.each do |site_target| %>
 			<li>
 				<%= check_box_tag("targets[#{site_target.target_id}]") %>
@@ -17,13 +16,18 @@
 </div>
 
 <div class="targets contacted">
-	<ul>
-	<% @contacted_site_targets.each do |site_target| %>
-		<li>
-			<%= link_to(site_target.target_name, site_target.target) %>
-			- <small>contacted on</small> <%= site_target.contacted.to_s(:long) %>
-		</li>
+	<%= form_tag(client_site_path(@site.client, @site), method: :put) do %>
+		<ul>
+		<% @contacted_site_targets.each do |site_target| %>
+			<li>
+				<%= link_to(site_target.target_name, site_target.target) %>
+				- <small>contacted on</small> <%= site_target.contacted.to_s(:long) %>
+
+				<%= link_to(site_target.target_name, site_target.target) %>
+			</li>
+		<% end %>
+		</ul>
+		<%= submit_tag("Update") %>
 	<% end %>
-	</ul>
 </div>
 
