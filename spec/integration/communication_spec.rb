@@ -71,26 +71,24 @@ describe "Site Show Pages" do
 	  	within(".targets.contacted") do
 	    	page.should have_content(@contacted_target.name)
 	    	# page.should_not have_content(@new_target.name)
+	    	# why is this bit not passing?
 	  	end
 		end 
 
-		  it "allows to choose recontact as a dropdown once, and never again" do
-		  	select("Recontacted", :from => "recontacted")
-		  	click_button "Update"
-		    page.should_not have_content("recontacted")
-		 
-		  end
+	  it "allows to choose recontact as a dropdown once, and never again" do
+	  	select("Recontacted", :from => "status_id")
+	    page.should_not have_content("recontacted")	 
+	  end
 
-			it "allows to choose 'Do Not Contact' as a dropdown" do
-		    click_button "Do Not Contact"
-		    page.reload
-		    page.should_not have_content(@target.name)
-		  end
+		it "allows to choose 'Do Not Contact' as a dropdown, and prints that for contact" do
+	  	select("Recontacted", :from => "status_id")
+	    page.should have_content("Never Contact")
+	  end
 
-		  it "allows to choose Input Details as a dropdown and redirects to target page" do
-		    click_button "Input Details"
-		    page.should have_content("Enter Offer Details")
-		    # What page shoudl this be? What model???
-		  end
+	  it "allows to choose Input Details as a dropdown and redirects to target page" do
+	  	select("Recontacted", :from => "status_id")
+	  	Visit site_target_path
+	    page.should have_content("Enter Offer Details")
+	  end
   end
 end

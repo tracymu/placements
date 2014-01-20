@@ -9,7 +9,6 @@ class SitesController < ApplicationController
 
   def create
     @site = @client.sites.build(site_params)
-    #@site.client = Client.find(params[:client_id]) if params[:client_id]
     @site.save ? redirect_to(client_site_path(@site.client, @site), notice: "Site '#{@site.name}' created successfully.") : render(:new)
   end
 
@@ -20,11 +19,13 @@ class SitesController < ApplicationController
 
   def update
     target_ids = params[:targets].keys
-    site_targets = @site.site_targets.uncontacted.where(target_id: target_ids)
+    # I think I need to understand what this keys method actually does.
+    uncontacted_site_targets = @site.site_targets.uncontacted.where(target_id: target_ids)
     contacted_at = DateTime.current
-    site_targets.each do |site_target|
-      site_target.update_attributes(contacted: contacted_at)
+    uncontacted_site_targets.each do |uncontacted_site_target|
+      uncontacted_site_target.update_attributes(contacted: contacted_at)
     end
+    # I will have to add in a new loop here, where updating the status attribute
     redirect_to(client_site_path(@client, @site), notice: "Updated Targets Successfully")
   end
 
