@@ -1,7 +1,8 @@
 <h1>This is the sites show page</h1>
 <%= link_to "Add Target", new_target_path(site_ids: @site.id) %>
-<%= form_tag(client_site_path(@site.client, @site), method: :put) do %>
+
 	<div class="targets uncontacted">
+		<%= form_tag(client_site_path(@site.client, @site), method: :put) do %>
 		<ul>
  <% binding.pry if @uncontacted_site_targets.nil? %>
  			<% @uncontacted_site_targets.each do |site_target| %>
@@ -11,10 +12,12 @@
 				</li>
 			<% end %>
 		</ul>
-
+	<%= submit_tag("Update Targets") %>
+<% end %>
 	</div>
 
 	<div class="targets contacted">
+		<%= form_tag(client_site_path(@site.client, @site), method: :put) do %>
 	<ul>
 		<% @contacted_site_targets.each do |site_target| %>
 			<li>	
@@ -24,9 +27,10 @@
 			</li>
 		<% end %>
 	</ul>
-	</div>
-	<%= submit_tag("Update Targets") %>
+		<%= submit_tag("Update Contacted Targets") %>
 <% end %>
+	</div>
+
 
 <!-- Ok, so at the moment I am thinking I am going to make it an arrya with those three options to choose from. Fuck trying to ge tthe date of each one and making them all attributes. It will be an attribute called soemthing like status. I guess that I shoudl have thought this through more - lik ehow you would structure something as it moves along a path from contacted...negotiating details...finalised.
 

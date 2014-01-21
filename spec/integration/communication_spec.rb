@@ -57,36 +57,34 @@ describe "Site Show Pages" do
 
   	before do
 	    visit client_site_path(@site.client, @site)		
-	    @current = DateTime.current
-			Timecop.freeze(@current)
-			check @new_target.name
-	    click_button "Update Targets"
+			# check @new_target.name
+	  #   click_button "Update Targets"
 		end
 
-		after do
-				Timecop.return
-		end
+	
 
 	  it "lists site.targets that have been contacted in the targets contacted section" do
 	  	within(".targets.contacted") do
 	    	page.should have_content(@contacted_target.name)
-	    	# page.should_not have_content(@new_target.name)
-	    	# why is this bit not passing?
+	    	page.should_not have_content(@new_target.name)
 	  	end
 		end 
 
 	  it "allows to choose recontact as a dropdown once, and never again" do
 	  	select("Recontacted", :from => "status_id")
+	  	click_button "Update Contacted Targets"
 	    page.should_not have_content("recontacted")	 
 	  end
 
 		it "allows to choose 'Do Not Contact' as a dropdown, and prints that for contact" do
 	  	select("Recontacted", :from => "status_id")
+	  	click_button "Update Contacted Targets"
 	    page.should have_content("Never Contact")
 	  end
 
 	  it "allows to choose Input Details as a dropdown and redirects to target page" do
 	  	select("Recontacted", :from => "status_id")
+	  	click_button "Update Contacted Targets"
 	  	Visit site_target_path
 	    page.should have_content("Enter Offer Details")
 	  end
