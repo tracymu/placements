@@ -1,10 +1,10 @@
 <h1>This is the sites show page</h1>
 <%= link_to "Add Target", new_target_path(site_ids: @site.id) %>
-
-	<div class="targets uncontacted">
 		<%= form_tag(client_site_path(@site.client, @site), method: :put) do %>
+	<div class="targets uncontacted">
+
 		<ul>
- <% binding.pry if @uncontacted_site_targets.nil? %>
+
  			<% @uncontacted_site_targets.each do |site_target| %>
 				<li>
 					<%= check_box_tag("targets[#{site_target.target_id}]") %>
@@ -12,27 +12,27 @@
 				</li>
 			<% end %>
 		</ul>
-	<%= submit_tag("Update Targets") %>
-<% end %>
+
 	</div>
 
 	<div class="targets contacted">
-		<%= form_tag(client_site_path(@site.client, @site), method: :put) do %>
+		
 	<ul>
 		<% @contacted_site_targets.each do |site_target| %>
 			<li>	
-				<%= link_to(site_target.target_name, site_target.target) %>
-				- <small>contacted on</small> <%= site_target.contacted.to_s(:long) %>
-				<%= select_tag 'status_id', options_for_select([['Recontacted', 1], ['Do Not Contact', 2], ['Input Details', 3]]), :include_blank => true %>
+				<%= label_tag("targets[#{site_target.target_id}]", link_to(site_target.target_name, site_target.target)) %>		
+				- <small>contacted on</small> <%= site_target.contacted.to_s(:long) %> 
+				- <%= site_target.status %>
+				<%= select_tag("targets[#{site_target.target_id}]", options_for_select([['Recontacted', 1], ['Do Not Contact', 2], ['Input Details', 3]]), :include_blank => true) %>
 			</li>
 		<% end %>
 	</ul>
-		<%= submit_tag("Update Contacted Targets") %>
-<% end %>
+		
 	</div>
+	<%= submit_tag("Update Targets") %>
+<% end %>
 
-
-<!-- Ok, so at the moment I am thinking I am going to make it an arrya with those three options to choose from. Fuck trying to ge tthe date of each one and making them all attributes. It will be an attribute called soemthing like status. I guess that I shoudl have thought this through more - lik ehow you would structure something as it moves along a path from contacted...negotiating details...finalised.
+<!-- Ok, so at the moment I am thinking I am going to make it an arrya with those three options to choose from.  It will be an attribute called soemthing like status. I guess that I shoudl have thought this through more - lik ehow you would structure something as it moves along a path from contacted...negotiating details...finalised.
 
 ALSO I can't have only one form here, because I need to have separate tabs/divs eventually. Google this 
 "multiple forms" to update the "one model" in rails

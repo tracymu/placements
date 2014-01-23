@@ -71,21 +71,22 @@ describe "Site Show Pages" do
 		end 
 
 	  it "allows to choose recontact as a dropdown once, and never again" do
-	  	select("Recontacted", :from => "status_id")
-	  	click_button "Update Contacted Targets"
+	  	select("Recontacted")
+	  	click_button "Update Targets"
 	    page.should_not have_content("recontacted")	 
+	    # This is passing and it really shouldn't
 	  end
 
 		it "allows to choose 'Do Not Contact' as a dropdown, and prints that for contact" do
-	  	select("Recontacted", :from => "status_id")
-	  	click_button "Update Contacted Targets"
-	    page.should have_content("Never Contact")
+	  	select("Do Not Contact")
+	  	click_button "Update Targets"
+	    page.should have_content("Do Not Contact")
 	  end
 
 	  it "allows to choose Input Details as a dropdown and redirects to target page" do
-	  	select("Recontacted", :from => "status_id")
-	  	click_button "Update Contacted Targets"
-	  	Visit site_target_path
+	  	select("Input Details")
+	  	click_button "Update Targets"
+			visit target_path(@contacted_target)
 	    page.should have_content("Enter Offer Details")
 	  end
   end
