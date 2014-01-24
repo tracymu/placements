@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-describe "Site Show Pages" do 
-# Not sure if this is the class I should be testing. I chose it because this functionality is looking at the
-# communication between sites and targets
+describe "Site Show Page" do 
 
 	before do
 		@site = Fabricate(:site)
@@ -57,11 +55,7 @@ describe "Site Show Pages" do
 
   	before do
 	    visit client_site_path(@site.client, @site)		
-			# check @new_target.name
-	  #   click_button "Update Targets"
 		end
-
-	
 
 	  it "lists site.targets that have been contacted in the targets contacted section" do
 	  	within(".targets.contacted") do
@@ -70,23 +64,32 @@ describe "Site Show Pages" do
 	  	end
 		end 
 
-	  it "allows to choose recontact as a dropdown once, and never again" do
+# None of these tests are
+
+	  it "allows to choose recontact as a dropdown once but never again" do
 	  	select("Recontacted")
 	  	click_button "Update Targets"
-	    page.should_not have_content("recontacted")	 
-	    # This is passing and it really shouldn't
+	    page.should_not have_select("Recontacted")	
+	    within(".status") do
+	    	page.should have_content("Recontacted")
+	    end 
+	    # this is obviously not even a real thing!
 	  end
 
-		it "allows to choose 'Do Not Contact' as a dropdown, and prints that for contact" do
+		it "allows to choose 'Do Not Contact' as a dropdown and writes that as it's status" do
 	  	select("Do Not Contact")
 	  	click_button "Update Targets"
-	    page.should have_content("Do Not Contact")
+	    within(".status") do
+	    	page.should have_content("Do Not Contact")
+	    end
+	    # this page has that content in the drop down all the time!!!
 	  end
 
 	  it "allows to choose Input Details as a dropdown and redirects to target page" do
 	  	select("Input Details")
 	  	click_button "Update Targets"
-			visit target_path(@contacted_target)
+			# then we want this to redirect to the site-target page, is that possible?
+			# then I manually went to that page, which is ridiculous, because of course then it would pass!
 	    page.should have_content("Enter Offer Details")
 	  end
   end
