@@ -2,9 +2,7 @@
 <%= link_to "Add Target", new_target_path(site_ids: @site.id) %>
 		<%= form_tag(client_site_path(@site.client, @site), method: :put) do %>
 	<div class="targets uncontacted">
-
 		<ul>
-
  			<% @uncontacted_site_targets.each do |site_target| %>
 				<li>
 					<%= check_box_tag("targets[#{site_target.target_id}]") %>
@@ -12,30 +10,25 @@
 				</li>
 			<% end %>
 		</ul>
-
 	</div>
 
-	<div class="targets contacted">
-		
+	<div class="targets contacted">		
 	<ul>
 		<% @contacted_site_targets.each do |site_target| %>
 			<li>	
 				<%= label_tag("targets[#{site_target.target_id}]", link_to(site_target.target_name, site_target.target)) %>		
-				- <small>contacted on</small> <%= site_target.contacted.to_s(:long) %> 
-				- <%= site_target.status %>
-				<%= select_tag("targets[#{site_target.target_id}]", options_for_select([['Recontacted', 1], ['Do Not Contact', 2], ['Input Details', 3]]), :include_blank => true) %>
+				
+				<% if site_target.status == "Recontacted" %>
+					<%= select_tag("targets[#{site_target.target_id}]", options_for_select([['Do Not Contact', 1], ['Input Details', 2]]), :include_blank => true) %>
+				<% else %>
+					<%= select_tag("targets[#{site_target.target_id}]", options_for_select([['Recontacted', 1],['Do Not Contact', 2], ['Input Details', 3]]), :include_blank => true) %>
+				<% end %>
+
+				<p class="status">- <small>contacted on <%= site_target.contacted.to_s(:long) %> 
+				- Current Status -  <%= site_target.status %> </small> </p>
 			</li>
 		<% end %>
 	</ul>
-		
 	</div>
 	<%= submit_tag("Update Targets") %>
 <% end %>
-
-<!-- Ok, so at the moment I am thinking I am going to make it an arrya with those three options to choose from.  It will be an attribute called soemthing like status. I guess that I shoudl have thought this through more - lik ehow you would structure something as it moves along a path from contacted...negotiating details...finalised.
-
-ALSO I can't have only one form here, because I need to have separate tabs/divs eventually. Google this 
-"multiple forms" to update the "one model" in rails
-
-
-Then I need a bottom div on here, after they have had this second communication finalised, they will be either negotiating or do not contact I guess. So I will have a list of those. And then on the Negotiating ones I will have a 'finalised' -->
