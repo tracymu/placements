@@ -1,0 +1,7 @@
+<h1>This is the new targets page</h1>
+<%= simple_form_for(@target) do |f| %>
+  <%= f.input :name %>
+  <%= f.input :url %>  
+  <%= f.association :sites, as: :check_boxes %> 
+  <%= f.button :submit %>
+<% end %>
