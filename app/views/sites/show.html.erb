@@ -1,0 +1,34 @@
+<h1>This is the sites show page</h1>
+<%= link_to "Add Target", new_target_path(site_ids: @site.id) %>
+		<%= form_tag(client_site_path(@site.client, @site), method: :put) do %>
+	<div class="targets uncontacted">
+		<ul>
+ 			<% @uncontacted_site_targets.each do |site_target| %>
+				<li>
+					<%= check_box_tag("targets[#{site_target.target_id}]") %>
+					<%= label_tag("targets[#{site_target.target_id}]", link_to(site_target.target_name, site_target.target)) %>
+				</li>
+			<% end %>
+		</ul>
+	</div>
+
+	<div class="targets contacted">		
+	<ul>
+		<% @contacted_site_targets.each do |site_target| %>
+			<li>	
+				<%= label_tag("#{site_target.status}", link_to(site_target.target_name, site_target.target)) %>		
+				
+				<% if site_target.status == "Recontacted" %>
+					<%= select_tag("#{site_target.status}", options_for_select([['Do Not Contact', 1], ['Input Details', 2]]), :include_blank => true) %>
+				<% else %>
+					<%= select_tag("#{site_target.status}", options_for_select([['Recontacted', 1],['Do Not Contact', 2], ['Input Details', 3]]), :include_blank => true) %>
+				<% end %>
+
+				<p class="status">- <small>contacted on <%= site_target.contacted.to_s(:long) %> 
+				- Current Status -  <%= site_target.status %> </small> </p>
+			</li>
+		<% end %>
+	</ul>
+	</div>
+	<%= submit_tag("Update Targets") %>
+<% end %>
