@@ -7,5 +7,6 @@ class SiteTarget < ActiveRecord::Base
   scope :contacted,   -> { where('contacted IS NOT NULL') }
 
   delegate :name, to: :target, prefix: true
+  # I need help understanding this line
 
 end
