@@ -35,8 +35,7 @@ class SitesController < ApplicationController
  private
 
   def site_params
-    params.require(:site).permit(:name, :url, :client_id)
-      # Do I need to do something special to send through the params about these site_targets?
+    params.require(:site).permit(:name, :url, :client_id, :site_target_status, :target_id)
   end
 
   def find_client

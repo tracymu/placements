@@ -16,12 +16,12 @@
 	<ul>
 		<% @contacted_site_targets.each do |site_target| %>
 			<li>	
-				<%= label_tag("targets[#{site_target.target_id}]", link_to(site_target.target_name, site_target.target)) %>		
+				<%= label_tag("#{site_target.status}", link_to(site_target.target_name, site_target.target)) %>		
 				
 				<% if site_target.status == "Recontacted" %>
-					<%= select_tag("targets[#{site_target.target_id}]", options_for_select([['Do Not Contact', 1], ['Input Details', 2]]), :include_blank => true) %>
+					<%= select_tag("#{site_target.status}", options_for_select([['Do Not Contact', 1], ['Input Details', 2]]), :include_blank => true) %>
 				<% else %>
-					<%= select_tag("targets[#{site_target.target_id}]", options_for_select([['Recontacted', 1],['Do Not Contact', 2], ['Input Details', 3]]), :include_blank => true) %>
+					<%= select_tag("#{site_target.status}", options_for_select([['Recontacted', 1],['Do Not Contact', 2], ['Input Details', 3]]), :include_blank => true) %>
 				<% end %>
 
 				<p class="status">- <small>contacted on <%= site_target.contacted.to_s(:long) %> 
